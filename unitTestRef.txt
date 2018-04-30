@@ -1,0 +1,27 @@
+UnitTestJSONCreateFree OK
+UnitTestJSONSetGet OK
+myStruct:
+{
+  "_emptyVal":"",
+  "_intVal":"1",
+  "_escapeVal":"\"double quoted\"",
+  "_intArr":["2","3","4"],
+  "_emptyArr":[],
+  "_oneIntArr":["4"],
+  "_structVal":{
+    "_intVal":"5"
+  },
+  "_structArr":[
+    {
+      "_intVal":"6"
+    },
+    {
+      "_intVal":"7"
+    }
+  ]
+}
+array:
+["8","9","10"]
+UnitTestJSONLoadSave OK
+UnitTestJSON OK
+UnitTestAll OK
