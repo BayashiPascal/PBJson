@@ -3,6 +3,7 @@ PBJson is a C library providing structures and functions to encode and decode st
 
 An example is given below to show how the user can use PBJson to implement encoding and decoding functions of his/her data structures. Structures can include sub-structures recursively. Values can be atomic values (converted into string), array of atomic values, sub-structures, and array of sub-structures. The encoding can be done in a compact form (no indentation and no line return), or a readable form (indentation and line return). The decoding supports both compact and readable form. Keys and values are delimited by double quote (") and values can include double quote by escaping them with an anti-slash (\textbackslash). The library has the two folllowing limitations: key's label cannot starts with "[]", and the value must be less than 500 characters long.
 
+```
 // Declare two structures for example
 struct structB {
   int _intVal;
@@ -225,3 +226,4 @@ StructALoad(&myStruct, stdin);
     }
   ]
 }
+```
