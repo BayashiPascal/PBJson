@@ -469,26 +469,8 @@ bool JSONLoadProp(JSONNode* that, FILE* stream) {
     JSONSetLabel(prop, bufferKey);
     // Add the new node to the JSON
     JSONAppendVal(that, prop);
-    // Move to the next significant character
-    if (!JSONGetNextChar(stream, &c))
-      return false;
-    // If the next significant char is not '"'
-    if (c != '"') {
-      // Return the failure code
-      JSONErr->_type = PBErrTypeInvalidData;
-      char ctx[2 * PBJSON_CONTEXTSIZE + 1];
-      JSONGetContextStream(stream, ctx);
-      sprintf(JSONErr->_msg, 
-        "JSONLoadProp: Expected '\"' or '}' but found '%c' near ...%s...", 
-        c, ctx);
-      return false;
-    }
-    // Load recursively the content of the property
-    if (!JSONLoadProp(prop, stream))
-      return false;
-    // Move to the next significant char
-    if (!JSONGetNextChar(stream, &c))
-      return false;
+    // Load the object
+    JSONLoadStruct(prop, stream);
   // Else, it's not a valid file
   } else {
     // Return the failure code
