@@ -43,6 +43,9 @@ bool JSONAddArr(JSONNode* that, char* prop, FILE* stream);
 // Return true if it could load, false else
 bool JSONAddArrStruct(JSONNode* that, char* prop, FILE* stream);
 
+// Get the characters around the current position in the 'stream'
+void JSONGetContextStream(FILE* stream, char* buffer);
+
 // ================ Functions implementation ====================
 
 // Free the memory used by the JSON node 'that' and its subnodes
@@ -362,8 +365,11 @@ bool JSONAddArr(JSONNode* that, char* prop, FILE* stream) {
     // check the next significant character is '"' or ']'
     if (c != '"' && c != ']') {
       JSONErr->_type = PBErrTypeInvalidData;
+      char ctx[2 * PBJSON_CONTEXTSIZE + 1];
+      JSONGetContextStream(stream, ctx);
       sprintf(JSONErr->_msg, 
-        "JSONAddArr: Expected '\"' or ']' but found %c", c);
+        "JSONAddArr: Expected '\"' or ']' but found '%c' near ...%s...", 
+        c, ctx);
       return false;
     }
   } while (c != ']');
@@ -403,8 +409,11 @@ bool JSONAddArrStruct(JSONNode* that, char* prop, FILE* stream) {
     // check the next significant character is '{' or ']'
     if (c != '{' && c != ']') {
       JSONErr->_type = PBErrTypeInvalidData;
+      char ctx[2 * PBJSON_CONTEXTSIZE + 1];
+      JSONGetContextStream(stream, ctx);
       sprintf(JSONErr->_msg, 
-        "JSONAddStruct: Expected '{' or ']' but found %c", c);
+        "JSONAddStruct: Expected '{' or ']' but found '%c' near ...%s...", 
+        c, ctx);
       return false;
     }
   } while (c != ']');
@@ -430,7 +439,11 @@ bool JSONLoadProp(JSONNode* that, FILE* stream) {
     return false;
   if (c != ':') {
     JSONErr->_type = PBErrTypeInvalidData;
-    sprintf(JSONErr->_msg, "JSONLoadProp: Expected ':' but found %c", c);
+    char ctx[2 * PBJSON_CONTEXTSIZE + 1];
+    JSONGetContextStream(stream, ctx);
+    sprintf(JSONErr->_msg, 
+      "JSONLoadProp: Expected ':' but found '%c' near ...%s...", 
+      c, ctx);
     return false;
   }
   // Read the next significant character
@@ -463,8 +476,11 @@ bool JSONLoadProp(JSONNode* that, FILE* stream) {
     if (c != '"') {
       // Return the failure code
       JSONErr->_type = PBErrTypeInvalidData;
+      char ctx[2 * PBJSON_CONTEXTSIZE + 1];
+      JSONGetContextStream(stream, ctx);
       sprintf(JSONErr->_msg, 
-        "JSONLoadProp: Expected '\"' or '}' but found %c", c);
+        "JSONLoadProp: Expected '\"' or '}' but found '%c' near ...%s...", 
+        c, ctx);
       return false;
     }
     // Load recursively the content of the property
@@ -477,12 +493,24 @@ bool JSONLoadProp(JSONNode* that, FILE* stream) {
   } else {
     // Return the failure code
     JSONErr->_type = PBErrTypeInvalidData;
+    char ctx[2 * PBJSON_CONTEXTSIZE + 1];
+    JSONGetContextStream(stream, ctx);
     sprintf(JSONErr->_msg, 
-      "JSONLoadProp: Expected '\"','{' or '[' but found %c", c);
+      "JSONLoadProp: Expected '\"','{' or '[' but found '%c' near ...%s...", 
+      c, ctx);
     return false;
   }
   // Return the success code
   return true;
+}
+
+// Get the characters around the current position in the 'stream'
+void JSONGetContextStream(FILE* stream, char* buffer) {
+  int pos = fseek(stream, -PBJSON_CONTEXTSIZE, SEEK_CUR);
+  (void)pos;
+  int nb = fread(buffer, sizeof(char), 2 * PBJSON_CONTEXTSIZE, stream);
+  (void)nb;
+  buffer[2 * PBJSON_CONTEXTSIZE] = '\0';
 }
 
 // Load a struct in the JSON 'that' from the stream 'stream'
@@ -496,19 +524,9 @@ bool JSONLoadStruct(JSONNode* that, FILE* stream) {
       return false;
     // If it's not the end of the struct
     if (c != '}') {
-      // If the next significant character is a double quote
-      if (c == '"') {
-        // Load the pair key/value
-        if (!JSONLoadProp(that, stream))
-          return false;
-      // Else, it's not a valid file
-      } else {
-        // Return the error code
-        JSONErr->_type = PBErrTypeInvalidData;
-        sprintf(JSONErr->_msg, 
-          "JSONLoadStruct: Expected '\"' but found %c", c);
+      // Load the pair key/value
+      if (!JSONLoadProp(that, stream))
         return false;
-      }
     } 
   }
   // Return the success code
@@ -545,8 +563,11 @@ bool JSONLoadArr(JSONNode* that, FILE* stream, char* key) {
   } else {
     // Return the failure code
     JSONErr->_type = PBErrTypeInvalidData;
+    char ctx[2 * PBJSON_CONTEXTSIZE + 1];
+    JSONGetContextStream(stream, ctx);
     sprintf(JSONErr->_msg, 
-      "JSONLoadArr: Expected '\"' or '{' but found %c", c);
+      "JSONLoadArr: Expected '\"' or '{' but found '%c' near ...%s...", 
+      c, ctx);
     return false;
   }
   // Return the success code
@@ -586,8 +607,11 @@ bool JSONLoad(JSONNode* that, FILE* stream) {
   } else {
     // It's not a valid file, stop here
     JSONErr->_type = PBErrTypeInvalidData;
+    char ctx[2 * PBJSON_CONTEXTSIZE + 1];
+    JSONGetContextStream(stream, ctx);
     sprintf(JSONErr->_msg, 
-      "JSONLoad: Expected '{' or '[' but found %c", c);
+      "JSONLoad: Expected '{' or '[' but found '%c' near ...%s...", 
+      c, ctx);
     return false;
   }
   // Return the success code
