@@ -11,11 +11,12 @@
 
 // Save recursively the JSON tree 'that' into the stream 'stream'
 // Return true if it could save, false else
-bool JSONSaveRec(JSONNode* that, FILE* stream, bool compact, int depth);
+bool JSONSaveRec(const JSONNode* const that, FILE* const stream, 
+  const bool compact, int depth);
 
 // Return true if the JSON node 'that' is a value (ie its subtree is 
 // empty)
-inline bool JSONIsValue(JSONNode* that);
+inline bool JSONIsValue(JSONNode* const that);
 
 // Scan the 'stream' char by char until the next significant char
 // ie anything else than a space or a new line or a tab and store the 
@@ -25,11 +26,11 @@ inline bool JSONGetNextChar(FILE* stream, char* c);
 
 // Load a struct in the JSON 'that' from the stream 'stream'
 // Return true if it could load, false else
-bool JSONLoadStruct(JSONNode* that, FILE* stream);
+bool JSONLoadStruct(JSONNode* const that, FILE* stream);
 
 // Load an array in the JSON 'that' from the stream 'stream'
 // Return true if it could load, false else
-bool JSONLoadArr(JSONNode* that, FILE* stream, char* key);
+bool JSONLoadArr(JSONNode* const that, FILE* stream, char* key);
 
 // Load the string 'str' from the 'stream'
 // Return false if there has been an I/O error
@@ -37,11 +38,11 @@ bool JSONLoadStr(FILE* stream, char* str);
 
 // Load the array of values of property 'prop' in the JSON 'that' 
 // Return true if it could load, false else
-bool JSONAddArr(JSONNode* that, char* prop, FILE* stream);
+bool JSONAddArr(JSONNode* const that, char* prop, FILE* stream);
 
 // Load the array of structs of property 'prop' in the JSON 'that' 
 // Return true if it could load, false else
-bool JSONAddArrStruct(JSONNode* that, char* prop, FILE* stream);
+bool JSONAddArrStruct(JSONNode* const that, char* prop, FILE* stream);
 
 // Get the characters around the current position in the 'stream'
 void JSONGetContextStream(FILE* stream, char* buffer);
@@ -72,7 +73,8 @@ void JSONFree(JSONNode** that) {
 
 // Add a property to the node 'that'. The property's key is a copy of a 
 // 'key' and its values are a copy of the values in the GSetStr 'set'
-void _JSONAddPropArr(JSONNode* that, char* key, GSetStr* set) {
+void _JSONAddPropArr(JSONNode* const that, const char* const key, 
+  const GSetStr* const set) {
 #if BUILDMODE == 0
   if (that == NULL) {
     JSONErr->_type = PBErrTypeNullPointer;
@@ -124,8 +126,8 @@ void _JSONAddPropArr(JSONNode* that, char* key, GSetStr* set) {
 
 // Add a property to the node 'that'. The property's key is a copy of a 
 // 'key' and its values are the GTreeStr in the GSetGTreeStr 'set'
-void _JSONAddPropArrObj(JSONNode* that, char* key, 
-  GSetGTreeStr* set) {
+void _JSONAddPropArrObj(JSONNode* const that, const char* const key, 
+  const GSetGTreeStr* const set) {
   // Create a new node for the key
   JSONNode* nodeKey = JSONCreate();
   // Set the key label with '[]' as prefix
@@ -169,7 +171,7 @@ inline bool JSONIndent(FILE* stream, int depth) {
 
 // Return true if the JSON node 'that' is a value (ie its subtree is 
 // empty)
-inline bool JSONIsValue(JSONNode* that) {
+inline bool JSONIsValue(JSONNode* const that) {
   return (GSetNbElem(GTreeSubtrees(that)) == 0);
 }
 
@@ -177,7 +179,8 @@ inline bool JSONIsValue(JSONNode* that) {
 // If 'compact' equals true save in compact form, else save in easily 
 // readable form
 // Return true if it could save, false else
-bool JSONSave(JSONNode* that, FILE* stream, bool compact) {
+bool JSONSave(const JSONNode* const that, FILE* const stream, 
+  const bool compact) {
 #if BUILDMODE == 0
   if (that == NULL) {
     JSONErr->_type = PBErrTypeNullPointer;
@@ -196,7 +199,8 @@ bool JSONSave(JSONNode* that, FILE* stream, bool compact) {
 
 // Save recursively the JSON tree 'that' into the stream 'stream'
 // Return true if it could save, false else
-bool JSONSaveRec(JSONNode* that, FILE* stream, bool compact, int depth) {
+bool JSONSaveRec(const JSONNode* const that, FILE* const stream, 
+  const bool compact, int depth) {
   // Declare a flag to memorize if the current node is a key for an 
   // array of object
   bool flagArrObj = false;
@@ -345,7 +349,7 @@ bool JSONLoadStr(FILE* stream, char* str) {
 
 // Load the array of values of property 'prop' in the JSON 'that' 
 // Return true if it could load, false else
-bool JSONAddArr(JSONNode* that, char* prop, FILE* stream) {
+bool JSONAddArr(JSONNode* const that, char* prop, FILE* stream) {
   // Declare the array of values
   JSONArrayVal set = JSONArrayValCreateStatic();
   // Declare a buffer for the value
@@ -383,7 +387,7 @@ bool JSONAddArr(JSONNode* that, char* prop, FILE* stream) {
 
 // Load the array of structs of property 'prop' in the JSON 'that' 
 // Return true if it could load, false else
-bool JSONAddArrStruct(JSONNode* that, char* prop, FILE* stream) {
+bool JSONAddArrStruct(JSONNode* const that, char* prop, FILE* stream) {
   // Declare the array of values
   JSONArrayStruct set = JSONArrayStructCreateStatic();
   // Declare a char to memorize the next significant char
@@ -427,7 +431,7 @@ bool JSONAddArrStruct(JSONNode* that, char* prop, FILE* stream) {
 
 // Load a key/value in the JSON 'that' from the stream 'stream'
 // Return true if it could load, false else
-bool JSONLoadProp(JSONNode* that, FILE* stream) {
+bool JSONLoadProp(JSONNode* const that, FILE* stream) {
   // Declare a buffer to read the key
   char bufferKey[PBJSON_MAXLENGTHLBL + 1] = {'\0'};
   // Read the property's key
@@ -497,7 +501,7 @@ void JSONGetContextStream(FILE* stream, char* buffer) {
 
 // Load a struct in the JSON 'that' from the stream 'stream'
 // Return true if it could load, false else
-bool JSONLoadStruct(JSONNode* that, FILE* stream) {
+bool JSONLoadStruct(JSONNode* const that, FILE* stream) {
   char c = '\0';
   // Loop until the end of the structure
   while (c != '}') {
@@ -517,7 +521,7 @@ bool JSONLoadStruct(JSONNode* that, FILE* stream) {
 
 // Load an array in the JSON 'that' from the stream 'stream'
 // Return true if it could load, false else
-bool JSONLoadArr(JSONNode* that, FILE* stream, char* key) {
+bool JSONLoadArr(JSONNode* const that, FILE* stream, char* key) {
   // Declare a variable ot memorize the next significant char
   char c;
   // Read the next significant character
@@ -558,7 +562,7 @@ bool JSONLoadArr(JSONNode* that, FILE* stream, char* key) {
 
 // Load the JSON 'that' from the stream 'stream'
 // Return true if it could load, false else
-bool JSONLoad(JSONNode* that, FILE* stream) {
+bool JSONLoad(JSONNode* const that, FILE* const stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     JSONErr->_type = PBErrTypeNullPointer;
@@ -603,7 +607,8 @@ bool JSONLoad(JSONNode* that, FILE* stream) {
 // Return the JSONNode of the property with label 'lbl' of the 
 // JSON 'that'
 // If the property doesn't exist return NULL
-JSONNode* JSONProperty(JSONNode* that, char* lbl) {
+JSONNode* JSONProperty(const JSONNode* const that, 
+  const char* const lbl) {
 #if BUILDMODE == 0
   if (that == NULL) {
     JSONErr->_type = PBErrTypeNullPointer;

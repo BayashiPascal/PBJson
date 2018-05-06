@@ -17,6 +17,7 @@
 
 #define PBJSON_INDENT "  "
 #define PBJSON_MAXLENGTHLBL 500
+#define PBJSON_CONTEXTSIZE 10
 
 // ================= Data structure ===================
 
@@ -34,56 +35,61 @@ void JSONFree(JSONNode** that);
 #if BUILDMODE != 0
 inline
 #endif
-void JSONSetLabel(JSONNode* that, char* lbl);
+void JSONSetLabel(JSONNode* const that, const char* const lbl);
 
 // Add a property to the node 'that'. The property's key is a copy of a 
 // 'key' and its value is a copy of 'val'
 #if BUILDMODE != 0
 inline
 #endif
-void _JSONAddPropStr(JSONNode* that, char* key, char* val);
+void _JSONAddPropStr(JSONNode* const that, const char* const key, 
+  char* const val);
 
 // Add a property to the node 'that'. The property's key is a copy of a 
 // 'key' and its value is the JSON node 'val'
 #if BUILDMODE != 0
 inline
 #endif
-void _JSONAddPropObj(JSONNode* that, char* key, JSONNode* val);
+void _JSONAddPropObj(JSONNode* const that, const char* const key, 
+  JSONNode* const val);
 
 // Add a property to the node 'that'. The property's key is a copy of a 
 // 'key' and its values are a copy of the values in the GSetStr 'set'
-void _JSONAddPropArr(JSONNode* that, char* key, GSetStr* set);
+void _JSONAddPropArr(JSONNode* const that, const char* const key, 
+  const GSetStr* const set);
 
 // Add a property to the node 'that'. The property's key is a copy of a 
 // 'key' and its values are the GTreeStr in the GSetGTreeStr 'set'
-void _JSONAddPropArrObj(JSONNode* that, char* key, GSetGTreeStr* set);
+void _JSONAddPropArrObj(JSONNode* const that, const char* const key, 
+  const GSetGTreeStr* const set);
 
 // Save the JSON 'that' on the stream 'stream'
 // If 'compact' equals true save in compact form, else save in easily 
 // readable form
 // Return true if it could save, false else
-bool JSONSave(JSONNode* that, FILE* stream, bool compact);
+bool JSONSave(const JSONNode* const that, FILE* const stream, 
+  const bool compact);
 
 // Load the JSON 'that' from the stream 'stream'
 // Return true if it could load, false else
-bool JSONLoad(JSONNode* that, FILE* stream);
+bool JSONLoad(JSONNode* const that, FILE* const stream);
 
 // Return the JSONNode of the property with label 'lbl' of the 
 // JSON 'that'
 // If the property doesn't exist return NULL
-JSONNode* JSONProperty(JSONNode* that, char* lbl);
+JSONNode* JSONProperty(const JSONNode* const that, const char* const lbl);
 
 // Add a copy of the value 'val' to the array of value 'that'
 #if BUILDMODE != 0
 inline
 #endif
-void JSONArrayValAdd(JSONArrayVal* that, char* val);
+void JSONArrayValAdd(JSONArrayVal* const that, const char* const val);
 
 // Free memory used by the static array of values 'that'
 #if BUILDMODE != 0
 inline
 #endif
-void JSONArrayValFlush(JSONArrayVal* that);
+void JSONArrayValFlush(JSONArrayVal* const that);
 
 // Wrapping of GTreeStr functions
 #define JSONCreate() ((JSONNode*)GTreeStrCreate())
@@ -105,9 +111,13 @@ void JSONArrayValFlush(JSONArrayVal* that);
 
 #define JSONAddProp(Node, Key, Val) _Generic(Val, \
   char*: _JSONAddPropStr, \
+  const char*: _JSONAddPropStr, \
   JSONNode*: _JSONAddPropObj, \
+  const JSONNode*: _JSONAddPropObj, \
   GSetStr*: _JSONAddPropArr, \
+  const GSetStr*: _JSONAddPropArr, \
   GSetGTreeStr*: _JSONAddPropArrObj, \
+  const GSetGTreeStr*: _JSONAddPropArrObj, \
   default: PBErrInvalidPolymorphism) (Node, Key, Val)
 
 // ================ Inliner ====================

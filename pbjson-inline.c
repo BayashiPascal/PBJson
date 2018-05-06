@@ -6,7 +6,7 @@
 #if BUILDMODE != 0
 inline
 #endif
-void JSONSetLabel(JSONNode* that, char* lbl) {
+void JSONSetLabel(JSONNode* const that, const char* const lbl) {
 #if BUILDMODE == 0
   if (that == NULL) {
     JSONErr->_type = PBErrTypeNullPointer;
@@ -35,7 +35,8 @@ void JSONSetLabel(JSONNode* that, char* lbl) {
 #if BUILDMODE != 0
 inline
 #endif
-void _JSONAddPropStr(JSONNode* that, char* key, char* val) {
+void _JSONAddPropStr(JSONNode* const that, const char* const key, 
+  char* const val) {
 #if BUILDMODE == 0
   if (that == NULL) {
     JSONErr->_type = PBErrTypeNullPointer;
@@ -71,7 +72,8 @@ void _JSONAddPropStr(JSONNode* that, char* key, char* val) {
 #if BUILDMODE != 0
 inline
 #endif
-void _JSONAddPropObj(JSONNode* that, char* key, JSONNode* val) {
+void _JSONAddPropObj(JSONNode* const that, const char* const key, 
+  JSONNode* const val) {
 #if BUILDMODE == 0
   if (that == NULL) {
     JSONErr->_type = PBErrTypeNullPointer;
@@ -99,7 +101,7 @@ void _JSONAddPropObj(JSONNode* that, char* key, JSONNode* val) {
 #if BUILDMODE != 0
 inline
 #endif
-void JSONArrayValAdd(JSONArrayVal* that, char* val) {
+void JSONArrayValAdd(JSONArrayVal* const that, const char* const val) {
 #if BUILDMODE == 0
   if (that == NULL) {
     JSONErr->_type = PBErrTypeNullPointer;
@@ -123,7 +125,7 @@ void JSONArrayValAdd(JSONArrayVal* that, char* val) {
 #if BUILDMODE != 0
 inline
 #endif
-void JSONArrayValFlush(JSONArrayVal* that) {
+void JSONArrayValFlush(JSONArrayVal* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     JSONErr->_type = PBErrTypeNullPointer;
