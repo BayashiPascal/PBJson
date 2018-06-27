@@ -21,9 +21,9 @@
 
 // ================= Data structure ===================
 
-#define JSONNode GTreeStr
+#define JSONNode GenTreeStr
 #define JSONArrayVal GSetStr
-#define JSONArrayStruct GSetGTreeStr
+#define JSONArrayStruct GSetGenTreeStr
 
 // ================ Functions declaration ====================
 
@@ -59,9 +59,9 @@ void _JSONAddPropArr(JSONNode* const that, const char* const key,
   const GSetStr* const set);
 
 // Add a property to the node 'that'. The property's key is a copy of a 
-// 'key' and its values are the GTreeStr in the GSetGTreeStr 'set'
+// 'key' and its values are the GenTreeStr in the GSetGenTreeStr 'set'
 void _JSONAddPropArrObj(JSONNode* const that, const char* const key, 
-  const GSetGTreeStr* const set);
+  const GSetGenTreeStr* const set);
 
 // Save the JSON 'that' on the stream 'stream'
 // If 'compact' equals true save in compact form, else save in easily 
@@ -91,19 +91,19 @@ inline
 #endif
 void JSONArrayValFlush(JSONArrayVal* const that);
 
-// Wrapping of GTreeStr functions
-#define JSONCreate() ((JSONNode*)GTreeStrCreate())
-#define JSONLabel(Node) GTreeData(Node)
-#define JSONAppendVal(Key, Val) GTreeAppendSubtree(Key, Val)
-#define JSONProperties(JSON) GTreeSubtrees(JSON)
-#define JSONValue(JSON, Index) GTreeSubtree(JSON, Index)
-#define JSONGetNbValue(JSON) GSetNbElem(GTreeSubtrees(JSON))
+// Wrapping of GenTreeStr functions
+#define JSONCreate() ((JSONNode*)GenTreeStrCreate())
+#define JSONLabel(Node) GenTreeData(Node)
+#define JSONAppendVal(Key, Val) GenTreeAppendSubtree(Key, Val)
+#define JSONProperties(JSON) GenTreeSubtrees(JSON)
+#define JSONValue(JSON, Index) GenTreeSubtree(JSON, Index)
+#define JSONGetNbValue(JSON) GSetNbElem(GenTreeSubtrees(JSON))
 
 // Wrapping of GSetStr functions
 #define JSONArrayValCreateStatic() GSetStrCreateStatic()
 
-// Wrapping of GSetGTreeStr functions
-#define JSONArrayStructCreateStatic() GSetGTreeStrCreateStatic()
+// Wrapping of GSetGenTreeStr functions
+#define JSONArrayStructCreateStatic() GSetGenTreeStrCreateStatic()
 #define JSONArrayStructAdd(Array, Value) GSetAppend(Array, Value)
 #define JSONArrayStructFlush(Array) GSetFlush(Array)
 
@@ -116,8 +116,8 @@ void JSONArrayValFlush(JSONArrayVal* const that);
   const JSONNode*: _JSONAddPropObj, \
   GSetStr*: _JSONAddPropArr, \
   const GSetStr*: _JSONAddPropArr, \
-  GSetGTreeStr*: _JSONAddPropArrObj, \
-  const GSetGTreeStr*: _JSONAddPropArrObj, \
+  GSetGenTreeStr*: _JSONAddPropArrObj, \
+  const GSetGenTreeStr*: _JSONAddPropArrObj, \
   default: PBErrInvalidPolymorphism) (Node, Key, Val)
 
 // ================ Inliner ====================

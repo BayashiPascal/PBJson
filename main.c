@@ -38,9 +38,9 @@ void UnitTestJSONSetGet() {
   char* key = "key";
   char* val = "val";
   JSONAddProp(json, key, val);
-  if (strcmp(key, JSONLabel(GTreeSubtree(json, 0))) != 0 ||
+  if (strcmp(key, JSONLabel(GenTreeSubtree(json, 0))) != 0 ||
     strcmp(val, 
-      JSONLabel(GTreeSubtree(GTreeSubtree(json, 0), 0))) != 0) {
+      JSONLabel(GenTreeSubtree(GenTreeSubtree(json, 0), 0))) != 0) {
     JSONErr->_type = PBErrTypeUnitTestFailed;
     sprintf(JSONErr->_msg, "JSONAddProp failed");
     PBErrCatch(JSONErr);
@@ -50,7 +50,7 @@ void UnitTestJSONSetGet() {
   char* propkey = "propkey";
   JSONAddProp(json, propkey, prop);
   if (strcmp(propkey, JSONLabel(prop)) != 0 ||
-    GTreeSubtree(json, 1) != prop) {
+    GenTreeSubtree(json, 1) != prop) {
     JSONErr->_type = PBErrTypeUnitTestFailed;
     sprintf(JSONErr->_msg, "JSONAddProp failed");
     PBErrCatch(JSONErr);

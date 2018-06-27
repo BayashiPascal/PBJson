@@ -59,16 +59,16 @@ void JSONFree(JSONNode** that) {
   // Free all the char* in the tree
   if (JSONLabel(*that) != NULL)
     free(JSONLabel(*that));
-  GTreeIterDepth iter = GTreeIterDepthCreateStatic((GTreeStr*)(*that));
-  if (!GTreeIterIsLast(&iter)) {
+  GenTreeIterDepth iter = GenTreeIterDepthCreateStatic((GenTreeStr*)(*that));
+  if (!GenTreeIterIsLast(&iter)) {
     do {
-      char* label = GTreeIterGetData(&iter);
+      char* label = GenTreeIterGetData(&iter);
       free(label);
-    } while (GTreeIterStep(&iter));
+    } while (GenTreeIterStep(&iter));
   }
-  GTreeIterFreeStatic(&iter);
+  GenTreeIterFreeStatic(&iter);
   // Free memory
-  GTreeFree(that);
+  GenTreeFree(that);
 }
 
 // Add a property to the node 'that'. The property's key is a copy of a 
@@ -125,9 +125,9 @@ void _JSONAddPropArr(JSONNode* const that, const char* const key,
 }
 
 // Add a property to the node 'that'. The property's key is a copy of a 
-// 'key' and its values are the GTreeStr in the GSetGTreeStr 'set'
+// 'key' and its values are the GenTreeStr in the GSetGenTreeStr 'set'
 void _JSONAddPropArrObj(JSONNode* const that, const char* const key, 
-  const GSetGTreeStr* const set) {
+  const GSetGenTreeStr* const set) {
   // Create a new node for the key
   JSONNode* nodeKey = JSONCreate();
   // Set the key label with '[]' as prefix
@@ -143,7 +143,7 @@ void _JSONAddPropArrObj(JSONNode* const that, const char* const key,
     GSetIterForward iter = GSetIterForwardCreateStatic(set);
     do {
       // Get the value
-      GTreeStr* val = GSetIterGet(&iter);
+      GenTreeStr* val = GSetIterGet(&iter);
       // Attach the val to the key
       JSONAppendVal(nodeKey, val);
     } while (GSetIterStep(&iter));
@@ -172,7 +172,7 @@ inline bool JSONIndent(FILE* stream, int depth) {
 // Return true if the JSON node 'that' is a value (ie its subtree is 
 // empty)
 inline bool JSONIsValue(JSONNode* const that) {
-  return (GSetNbElem(GTreeSubtrees(that)) == 0);
+  return (GSetNbElem(GenTreeSubtrees(that)) == 0);
 }
 
 // Save the JSON 'that' on the stream 'stream'
