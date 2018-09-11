@@ -27,7 +27,7 @@ void JSONSetLabel(JSONNode* const that, const char* const lbl) {
   char* str = PBErrMalloc(JSONErr, sizeof(char) * (1 + strlen(lbl)));
   // Set the label copy
   strcpy(str, lbl);
-  GTreeSetData(that, str);
+  GenTreeSetData(that, str);
 }
 
 // Add a property to the node 'that'. The property's key is a copy of a 
