@@ -254,9 +254,10 @@ bool JSONSaveRec(const JSONNode* const that, FILE* const stream,
       // Save the property's values
       if (!JSONSaveRec(prop, stream, compact, depth + 1))
         return false;
-      if (!GSetIterIsLast(&iter))
+      if (!GSetIterIsLast(&iter)) {
         if (!PBErrPrintf(JSONErr, stream, "%s", ","))
           return false;
+      }
       if (!compact && !PBErrPrintf(JSONErr, stream, "%s", "\n")) 
         return false;
       if (!compact && flagArrObj && !GSetIterIsLast(&iter) && 
@@ -268,9 +269,10 @@ bool JSONSaveRec(const JSONNode* const that, FILE* const stream,
         if (!PBErrPrintf(JSONErr, stream, "%s", "["))
           return false;
       if (JSONLabel(prop) != NULL) {
-        if (flagComma)
+        if (flagComma) {
           if (!PBErrPrintf(JSONErr, stream, "%s", ","))
             return false;
+        }
         if (!PBErrPrintf(JSONErr, stream, "\"%s\"", 
           JSONLabel(prop)))
           return false;
@@ -363,10 +365,10 @@ bool JSONAddArr(JSONNode* const that, char* prop, FILE* stream) {
       return false;
     // Add the string to the array
     JSONArrayValAdd(&set, bufferValue);
-    // Move the next significant char
+    // Move to the next significant char
     if (!JSONGetNextChar(stream, &c))
       return false;
-    // check the next significant character is '"' or ']'
+    // Check the next significant character is '"' or ']'
     if (c != '"' && c != ']') {
       JSONErr->_type = PBErrTypeInvalidData;
       char ctx[2 * PBJSON_CONTEXTSIZE + 1];
