@@ -74,6 +74,10 @@ bool JSONSave(const JSONNode* const that, FILE* const stream,
 // Return true if it could load, false else
 bool JSONLoad(JSONNode* const that, FILE* const stream);
 
+// Load the JSON 'that' from the string 'str' seen as a stream
+// Return true if it could load, false else
+bool JSONLoadFromStr(JSONNode* const that, char* const str);
+
 // Return the JSONNode of the property with label 'lbl' of the 
 // JSON 'that'
 // If the property doesn't exist return NULL
