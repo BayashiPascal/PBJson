@@ -344,7 +344,14 @@ void UnitTestJSONLoadSave() {
   fclose(fd);
   JSONFree(&json);
   JSONFree(&jsonLoaded);
-
+  JSONNode* jsonStr = JSONCreate();
+  char* str = "{\"v\":\"1\"}";
+  if (JSONLoadFromStr(jsonStr, str) == false){
+    JSONErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(JSONErr->_msg, "JSONLoadFromStr failed");
+    PBErrCatch(JSONErr);
+  }
+  JSONFree(&jsonStr);
   printf("UnitTestJSONLoadSave OK\n");
 }
 

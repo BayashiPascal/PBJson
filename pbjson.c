@@ -606,6 +606,35 @@ bool JSONLoad(JSONNode* const that, FILE* const stream) {
   return true;
 }
 
+// Load the JSON 'that' from the string 'str' seen as a stream
+// Return true if it could load, false else
+bool JSONLoadFromStr(JSONNode* const that, char* const str) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    JSONErr->_type = PBErrTypeNullPointer;
+    sprintf(JSONErr->_msg, "'that' is null");
+    PBErrCatch(JSONErr);
+  }
+  if (str == NULL) {
+    JSONErr->_type = PBErrTypeNullPointer;
+    sprintf(JSONErr->_msg, "'str' is null");
+    PBErrCatch(JSONErr);
+  }
+#endif
+  // Open the string as a stream
+  FILE* stream = fmemopen(str, strlen(str), "r");
+  
+  // Load the JSON as with a normal stream
+  bool ret = JSONLoad(that, stream);
+  
+  // Close the stream
+  fclose(stream);
+  
+  // Return the success code
+  return ret;
+}
+
+
 // Return the JSONNode of the property with label 'lbl' of the 
 // JSON 'that'
 // If the property doesn't exist return NULL
