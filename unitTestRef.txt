@@ -6,8 +6,8 @@ myStruct:
   "_intVal":"1",
   "_escapeVal":"\"double quoted\"",
   "_intArr":["2","3","4"],
-  "_emptyArr":[],
-  "_oneIntArr":["4"],
+  "_emptyArr":"",
+  "_oneIntArr":"4",
   "_structVal":{
     "_intVal":"5",
     "_floatVal":"6.000000"

@@ -264,7 +264,7 @@ void StructALoad(struct structA* that, FILE* stream) {
   // Decode the data from the JSON to the structA
   if (!StructADecodeAsJSON(that, json)) {
     JSONErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(JSONErr->_msg, "JSONLoad failed");
+    sprintf(JSONErr->_msg, "StructADecodeAsJSON failed");
     PBErrCatch(JSONErr);
   }
   // Free the memory used by the JSON
