@@ -111,12 +111,12 @@ void _JSONAddPropArr(JSONNode* const that, const char* const key,
       JSONAppendVal(nodeKey, nodeVal);
     } while (GSetIterStep(&iter));
   }
-  // Add empty nodes to ensure it has at least 2 nodes and is viewed 
-  // as an array when saving 
-  while (nbElem < 2) {
+  // Add empty nodes to ensure it has at least 1 nodes and is viewed 
+  // as a property when saving 
+  while (nbElem < 1) {
     // Create a new empty node 
     JSONNode* nodeVal = JSONCreate();
-    // Attach the empty to the key
+    // Attach the empty node to the key
     JSONAppendVal(nodeKey, nodeVal);
     ++nbElem;
   }
@@ -148,12 +148,12 @@ void _JSONAddPropArrObj(JSONNode* const that, const char* const key,
       JSONAppendVal(nodeKey, val);
     } while (GSetIterStep(&iter));
   }
-  // Add empty nodes to ensure it has at least 2 nodes and is viewed 
-  // as an array when saving 
-  while (nbElem < 2) {
+  // Add empty nodes to ensure it has at least 1 nodes and is viewed 
+  // as a property when saving 
+  while (nbElem < 1) {
     // Create a new empty node 
     JSONNode* nodeVal = JSONCreate();
-    // Attach the empty to the key
+    // Attach the empty node to the key
     JSONAppendVal(nodeKey, nodeVal);
     ++nbElem;
   }
@@ -268,16 +268,19 @@ bool JSONSaveRec(const JSONNode* const that, FILE* const stream,
       if (GSetNbElem(JSONProperties(that)) > 1 && GSetIterIsFirst(&iter))
         if (!PBErrPrintf(JSONErr, stream, "%s", "["))
           return false;
+      if (flagComma) {
+        if (!PBErrPrintf(JSONErr, stream, "%s", ","))
+          return false;
+      }
       if (JSONLabel(prop) != NULL) {
-        if (flagComma) {
-          if (!PBErrPrintf(JSONErr, stream, "%s", ","))
-            return false;
-        }
         if (!PBErrPrintf(JSONErr, stream, "\"%s\"", 
           JSONLabel(prop)))
           return false;
-        flagComma = true;
+      } else {
+        if (!PBErrPrintf(JSONErr, stream, "%s", "\"\""))
+          return false;
       }
+      flagComma = true;
       if (GSetNbElem(JSONProperties(that)) > 1 && GSetIterIsLast(&iter))
         if (!PBErrPrintf(JSONErr, stream, "%s", "]")) 
           return false;
