@@ -611,7 +611,7 @@ bool JSONLoad(JSONNode* const that, FILE* const stream) {
 
 // Load the JSON 'that' from the string 'str' seen as a stream
 // Return true if it could load, false else
-bool JSONLoadFromStr(JSONNode* const that, char* const str) {
+bool JSONLoadFromStr(JSONNode* const that, const char* const str) {
 #if BUILDMODE == 0
   if (that == NULL) {
     JSONErr->_type = PBErrTypeNullPointer;
@@ -625,7 +625,7 @@ bool JSONLoadFromStr(JSONNode* const that, char* const str) {
   }
 #endif
   // Open the string as a stream
-  FILE* stream = fmemopen(str, strlen(str), "r");
+  FILE* stream = fmemopen((void*)str, strlen(str), "r");
   
   // Load the JSON as with a normal stream
   bool ret = JSONLoad(that, stream);
