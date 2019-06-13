@@ -175,6 +175,37 @@ inline bool JSONIsValue(JSONNode* const that) {
   return (GSetNbElem(GenTreeSubtrees(that)) == 0);
 }
 
+// Save the JSON 'that' in the string 'str'
+// If 'compact' equals true save in compact form, else save in easily 
+// readable form
+// Return true if it could save, false else
+bool JSONSaveToStr(const JSONNode* const that, char* const str, 
+  const bool compact) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    JSONErr->_type = PBErrTypeNullPointer;
+    sprintf(JSONErr->_msg, "'that' is null");
+    PBErrCatch(JSONErr);
+  }
+  if (str == NULL) {
+    JSONErr->_type = PBErrTypeNullPointer;
+    sprintf(JSONErr->_msg, "'str' is null");
+    PBErrCatch(JSONErr);
+  }
+#endif
+  // Open the string as a stream
+  FILE* stream = fmemopen((void*)str, strlen(str), "w");
+  
+  // Save the JSON as with a normal stream
+  bool ret = JSONSave(that, stream, compact);
+  
+  // Close the stream
+  fclose(stream);
+  
+  // Return the success code
+  return ret;
+}
+
 // Save the JSON 'that' on the stream 'stream'
 // If 'compact' equals true save in compact form, else save in easily 
 // readable form
@@ -636,7 +667,6 @@ bool JSONLoadFromStr(JSONNode* const that, const char* const str) {
   // Return the success code
   return ret;
 }
-
 
 // Return the JSONNode of the property with label 'lbl' of the 
 // JSON 'that'
