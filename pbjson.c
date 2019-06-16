@@ -180,7 +180,7 @@ inline bool JSONIsValue(JSONNode* const that) {
 // readable form
 // Return true if it could save, false else
 bool JSONSaveToStr(const JSONNode* const that, char* const str, 
-  const bool compact) {
+  const size_t strLen, const bool compact) {
 #if BUILDMODE == 0
   if (that == NULL) {
     JSONErr->_type = PBErrTypeNullPointer;
@@ -193,12 +193,14 @@ bool JSONSaveToStr(const JSONNode* const that, char* const str,
     PBErrCatch(JSONErr);
   }
 #endif
+
   // Open the string as a stream
-  FILE* stream = fmemopen((void*)str, strlen(str), "w");
+  FILE* stream = fmemopen((void*)str, strLen, "w");
   
   // Save the JSON as with a normal stream
   bool ret = JSONSave(that, stream, compact);
-  
+  fflush(stream);
+
   // Close the stream
   fclose(stream);
   

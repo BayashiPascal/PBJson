@@ -83,7 +83,7 @@ bool JSONLoadFromStr(JSONNode* const that, const char* const str);
 // readable form
 // Return true if it could save, false else
 bool JSONSaveToStr(const JSONNode* const that, char* const str, 
-  const bool compact);
+  const size_t strLen, const bool compact);
 
 // Return the JSONNode of the property with label 'lbl' of the 
 // JSON 'that'

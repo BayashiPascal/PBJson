@@ -351,8 +351,8 @@ void UnitTestJSONLoadSave() {
     sprintf(JSONErr->_msg, "JSONLoadFromStr failed");
     PBErrCatch(JSONErr);
   }
-  char strSave[50];
-  if (JSONSaveToStr(jsonStr, strSave, true) == false ||
+  char strSave[50] = {0};
+  if (JSONSaveToStr(jsonStr, strSave, 50, true) == false ||
     strcmp(str, strSave) != 0) {
     JSONErr->_type = PBErrTypeUnitTestFailed;
     sprintf(JSONErr->_msg, "JSONSaveToStr failed");
