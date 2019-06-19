@@ -345,12 +345,20 @@ void UnitTestJSONLoadSave() {
   JSONFree(&json);
   JSONFree(&jsonLoaded);
   JSONNode* jsonStr = JSONCreate();
-  char* str = "{\"v\":\"1\"}";
-  if (JSONLoadFromStr(jsonStr, str) == false){
+  char* str = "{\"v\":\"1\"}\n";
+  if (JSONLoadFromStr(jsonStr, str) == false) {
     JSONErr->_type = PBErrTypeUnitTestFailed;
     sprintf(JSONErr->_msg, "JSONLoadFromStr failed");
     PBErrCatch(JSONErr);
   }
+  char strSave[50] = {0};
+  if (JSONSaveToStr(jsonStr, strSave, 50, true) == false ||
+    strcmp(str, strSave) != 0) {
+    JSONErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(JSONErr->_msg, "JSONSaveToStr failed");
+    PBErrCatch(JSONErr);
+  }
+
   JSONFree(&jsonStr);
   printf("UnitTestJSONLoadSave OK\n");
 }

@@ -76,7 +76,14 @@ bool JSONLoad(JSONNode* const that, FILE* const stream);
 
 // Load the JSON 'that' from the string 'str' seen as a stream
 // Return true if it could load, false else
-bool JSONLoadFromStr(JSONNode* const that, char* const str);
+bool JSONLoadFromStr(JSONNode* const that, const char* const str);
+
+// Save the JSON 'that' in the string 'str'
+// If 'compact' equals true save in compact form, else save in easily 
+// readable form
+// Return true if it could save, false else
+bool JSONSaveToStr(const JSONNode* const that, char* const str, 
+  const size_t strLen, const bool compact);
 
 // Return the JSONNode of the property with label 'lbl' of the 
 // JSON 'that'
