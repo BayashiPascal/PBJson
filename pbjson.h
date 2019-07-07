@@ -16,7 +16,7 @@
 // ================= Define ==================
 
 #define PBJSON_INDENT "  "
-#define PBJSON_MAXLENGTHLBL 500
+#define PBJSON_MAXLENGTHLBL 1024
 #define PBJSON_CONTEXTSIZE 10
 
 // ================= Data structure ===================
