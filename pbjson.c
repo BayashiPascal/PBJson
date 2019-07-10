@@ -175,7 +175,8 @@ inline bool JSONIsValue(JSONNode* const that) {
   return (GSetNbElem(GenTreeSubtrees(that)) == 0);
 }
 
-// Save the JSON 'that' in the string 'str'
+// Save the JSON 'that' in the string 'str' of length at least equal to 
+// 'strLen'
 // If 'compact' equals true save in compact form, else save in easily 
 // readable form
 // Return true if it could save, false else

@@ -78,7 +78,8 @@ bool JSONLoad(JSONNode* const that, FILE* const stream);
 // Return true if it could load, false else
 bool JSONLoadFromStr(JSONNode* const that, const char* const str);
 
-// Save the JSON 'that' in the string 'str'
+// Save the JSON 'that' in the string 'str' of length at least equal to 
+// 'strLen'
 // If 'compact' equals true save in compact form, else save in easily 
 // readable form
 // Return true if it could save, false else
