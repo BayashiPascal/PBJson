@@ -119,6 +119,9 @@ void JSONArrayValFlush(JSONArrayVal* const that);
 #define JSONArrayStructAdd(Array, Value) GSetAppend(Array, Value)
 #define JSONArrayStructFlush(Array) GSetFlush(Array)
 
+// Shortcut to get the label of the first value of the JSONNode 'node'
+#define JSONLblVal(node) (JSONLabel(JSONValue(node, 0))
+
 // ================= Polymorphism ==================
 
 #define JSONAddProp(Node, Key, Val) _Generic(Val, \

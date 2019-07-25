@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.18)  7 JUL 2019 19:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.18)  25 JUL 2019 22:08
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -530,9 +530,9 @@ File: /home/bayashi/GitHub/PBJson/pbjson.h  (verbatim)
  [5] [6] [7]
 File: /home/bayashi/GitHub/PBJson/pbjson.c  (verbatim)
  [8] [9] [10] [11] [12] [13] [14] [15] [16] [17]
-[18]
+[18] [19]
 File: /home/bayashi/GitHub/PBJson/pbjson-inline.c  (verbatim)
- [19] [20] [21]
+ [20] [21]
 File: /home/bayashi/GitHub/PBJson/Makefile  (verbatim)
 
 Overfull \hbox (787.2669pt too wide) in paragraph at lines 49--49
@@ -588,7 +588,7 @@ File: /home/bayashi/GitHub/PBJson/testJsonArray.txt  (verbatim)
 Here is how much of TeX's memory you used:
  13299 strings out of 494314
  255961 string characters out of 6163111
- 293773 words of memory out of 5000000
+ 292773 words of memory out of 5000000
  16381 multiletter control sequences out of 15000+600000
  12740 words of font info for 50 fonts, out of 8000000 for 9000
  372 hyphenation exceptions out of 8191
@@ -601,7 +601,7 @@ share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/
 texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
 
 pdfTeX warning: pdflatex: no GlyphToUnicode entry has been inserted yet!
-Output written on doc.pdf (30 pages, 113743 bytes).
+Output written on doc.pdf (30 pages, 113914 bytes).
 PDF statistics:
  125 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

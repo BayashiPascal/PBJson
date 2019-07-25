@@ -4,6 +4,6 @@
 \contentsline {subsection}{\numberline {3.1}PBJson.c}{8}
 \contentsline {subsection}{\numberline {3.2}PBJson-inline.c}{20}
 \contentsline {section}{\numberline {4}Makefile}{22}
-\contentsline {section}{\numberline {5}Unit tests}{22}
+\contentsline {section}{\numberline {5}Unit tests}{23}
 \contentsline {section}{\numberline {6}Unit tests output}{29}
 \contentsline {section}{\numberline {7}Examples}{29}
