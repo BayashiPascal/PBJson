@@ -16,13 +16,13 @@ bool JSONSaveRec(const JSONNode* const that, FILE* const stream,
 
 // Return true if the JSON node 'that' is a value (ie its subtree is 
 // empty)
-inline bool JSONIsValue(JSONNode* const that);
+static inline bool JSONIsValue(JSONNode* const that);
 
 // Scan the 'stream' char by char until the next significant char
 // ie anything else than a space or a new line or a tab and store the 
 // result in 'c'
 // Return false if there has been an I/O error
-inline bool JSONGetNextChar(FILE* stream, char* c);
+static inline bool JSONGetNextChar(FILE* stream, char* c);
 
 // Load a struct in the JSON 'that' from the stream 'stream'
 // Return true if it could load, false else
@@ -162,7 +162,7 @@ void _JSONAddPropArrObj(JSONNode* const that, const char* const key,
 }
 
 // Function to add indentation in beautiful mode
-inline bool JSONIndent(FILE* stream, int depth) {
+static inline bool JSONIndent(FILE* stream, int depth) {
   for (int i = depth; i--;)
     if (!PBErrPrintf(JSONErr, stream, "%s", PBJSON_INDENT))
       return false;
@@ -171,7 +171,7 @@ inline bool JSONIndent(FILE* stream, int depth) {
 
 // Return true if the JSON node 'that' is a value (ie its subtree is 
 // empty)
-inline bool JSONIsValue(JSONNode* const that) {
+static inline bool JSONIsValue(JSONNode* const that) {
   return (GSetNbElem(GenTreeSubtrees(that)) == 0);
 }
 
@@ -337,7 +337,7 @@ bool JSONSaveRec(const JSONNode* const that, FILE* const stream,
 // ie anything else than a space or a new line or a tab or a comma 
 // and store the result in 'c'
 // Return false if there has been an I/O error
-inline bool JSONGetNextChar(FILE* stream, char* c) {
+static inline bool JSONGetNextChar(FILE* stream, char* c) {
   // Loop until the next significant char
   do {
     // If we coudln't read the next character

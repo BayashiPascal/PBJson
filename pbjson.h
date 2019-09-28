@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "pberr.h"
+#include "gset.h"
 #include "gtree.h"
 
 // ================= Define ==================
@@ -33,14 +34,14 @@ void JSONFree(JSONNode** that);
 
 // Set the label of the JSON node 'that' to a copy of 'lbl'
 #if BUILDMODE != 0
-inline
+static inline
 #endif
 void JSONSetLabel(JSONNode* const that, const char* const lbl);
 
 // Add a property to the node 'that'. The property's key is a copy of a 
 // 'key' and its value is a copy of 'val'
 #if BUILDMODE != 0
-inline
+static inline
 #endif
 void _JSONAddPropStr(JSONNode* const that, const char* const key, 
   char* const val);
@@ -48,7 +49,7 @@ void _JSONAddPropStr(JSONNode* const that, const char* const key,
 // Add a property to the node 'that'. The property's key is a copy of a 
 // 'key' and its value is the JSON node 'val'
 #if BUILDMODE != 0
-inline
+static inline
 #endif
 void _JSONAddPropObj(JSONNode* const that, const char* const key, 
   JSONNode* const val);
@@ -93,13 +94,13 @@ JSONNode* JSONProperty(const JSONNode* const that, const char* const lbl);
 
 // Add a copy of the value 'val' to the array of value 'that'
 #if BUILDMODE != 0
-inline
+static inline
 #endif
 void JSONArrayValAdd(JSONArrayVal* const that, const char* const val);
 
 // Free memory used by the static array of values 'that'
 #if BUILDMODE != 0
-inline
+static inline
 #endif
 void JSONArrayValFlush(JSONArrayVal* const that);
 
@@ -135,7 +136,7 @@ void JSONArrayValFlush(JSONArrayVal* const that);
   const GSetGenTreeStr*: _JSONAddPropArrObj, \
   default: PBErrInvalidPolymorphism) (Node, Key, Val)
 
-// ================ Inliner ====================
+// ================ static inliner ====================
 
 #if BUILDMODE != 0
 #include "pbjson-inline.c"
